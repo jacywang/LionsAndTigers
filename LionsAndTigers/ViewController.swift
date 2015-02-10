@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     
     var myTigers: [Tiger] = []
     var lions: [Lion] = []
+    var lionCups: [LionCup] = []
     
     var currentIndex = 0
     
@@ -87,11 +88,21 @@ class ViewController: UIViewController {
         
         self.lions += [lion, lioness]
         
-        lion.roar()
-        lioness.roar()
+        var lionCup = LionCup()
+        lionCup.age = 1
+        lionCup.name = "Simba"
+        lionCup.image = UIImage(named: "LionCub1.jpg")
+        lionCup.subspecies = "Masai"
+        lionCup.isAlphaMale = true
         
-        lion.changeAlphaMale()
-        println(lion.isAlphaMale)
+        var femaleLionCup = LionCup()
+        femaleLionCup.age = 2
+        femaleLionCup.name = "Nana"
+        femaleLionCup.image = UIImage(named: "LionCub2.jpeg")
+        femaleLionCup.subspecies = "Transvaal"
+        femaleLionCup.isAlphaMale = false
+        
+        self.lionCups += [lionCup, femaleLionCup]
     }
 
     override func didReceiveMemoryWarning() {
@@ -109,6 +120,9 @@ class ViewController: UIViewController {
         case ("Tiger", _):
             let randomIndex = Int(arc4random_uniform(UInt32(lions.count)))
             currentAnimal = ("Lion", randomIndex)
+        case ("Lion", _):
+            let randomIndex = Int(arc4random_uniform(UInt32(lionCups.count)))
+            currentAnimal = ("LionCup", randomIndex)
         default:
             let randomIndex = Int(arc4random_uniform(UInt32(myTigers.count)))
             currentAnimal = ("Tiger", randomIndex)
@@ -125,13 +139,19 @@ class ViewController: UIViewController {
                 self.breedlabel.text = tiger.breed
                 self.randomFactLabel.text = tiger.randomFact()
             } else if self.currentAnimal.species == "Lion" {
-                println(self.currentAnimal.index)
                 let lion = self.lions[self.currentAnimal.index]
                 self.myImageView.image = lion.image
                 self.nameLabel.text = lion.name
                 self.ageLabel.text = "\(lion.age)"
                 self.breedlabel.text = lion.subspecies
                 self.randomFactLabel.text = lion.randomFact()
+            } else if self.currentAnimal.species == "LionCup" {
+                let lionCup = self.lionCups[self.currentAnimal.index]
+                self.myImageView.image = lionCup.image
+                self.nameLabel.text = lionCup.name
+                self.ageLabel.text = "\(lionCup.age)"
+                self.breedlabel.text = lionCup.subspecies
+                self.randomFactLabel.text = lionCup.randomFact()
             }
 
             }, completion: {
